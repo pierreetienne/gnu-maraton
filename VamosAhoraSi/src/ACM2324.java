@@ -35,10 +35,6 @@ public class ACM2324 {
 			st = new StringTokenizer(in.readLine());st.nextToken();
 			m = st.nextToken().toCharArray();
 			
-			
-			
-			
-			
 			System.out.println(f(0,0));
 			
 		}
