@@ -1,34 +1,30 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 
 public class CF134B {
 
-	static int N ;
-	static int f(int a , int b ){
-		if(a==N|| b == N)return 0;
-		int res ;
-		if(a>b)
-			res = f(a+b,b);
-		else
-			res = f(a,a+b);
-		
-		if(res == Integer.MAX_VALUE)
-			return Integer.MAX_VALUE;
-		else 
-			return res+1;
+	static int[] memofib;
+	
+	static int fib(int n ){
+		if(n == 0 || n == 1)return n;
+		if(memofib[n]!=-1)return memofib[n];
+		return memofib[n] = fib(n-1)+fib(n-2);
 	}
 	
-	public static void main(String[] args) throws Exception{
+	
+	public static void main(String[] args)throws Exception {
+		memofib = new int[1000003];
+		Arrays.fill(memofib,-1);
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		for(String linea; (linea = bf.readLine())!= null;)
-		{
-			N = Integer.parseInt(linea);
-			if(N>1)
-				sb.append((f(1,1)-1)+"\n");
-			else
-				sb.append("0\n");
+		for(String linea;(linea = bf.readLine())!=null;){
+			int N = Integer.parseInt(linea);
+			
+			System.out.println(fib(N+2));
+			
+			
 		}
 		System.out.print(new String(sb));
 	}
