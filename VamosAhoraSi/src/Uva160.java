@@ -1,6 +1,5 @@
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.TreeSet;
 
 
 public class Uva160 {
@@ -17,13 +16,24 @@ public class Uva160 {
 				for(int j=i*i;j<primos.length;j+=i)
 					primos[j]=true;
 		}
-		
-		
 		System.out.println(fact (new BigInteger("53")));
-		
+		factorizacion(new BigInteger("5"));
 	}
 	
-	
+	static void factorizacion(BigInteger n ){
+		while(!n.equals(BigInteger.ONE)){
+			//System.out.println(n);
+			for(BigInteger i = new BigInteger("2"); i.compareTo(n)==-1||i.compareTo(n)==0;i=i.add(BigInteger.ONE)){
+				System.out.println(i + " mod " + (n.mod(i)));
+				if(n.mod(i).equals(BigInteger.ZERO))
+				{
+					n = n.divide(i);
+					System.out.println(n);
+					break;
+				}
+			}
+		}
+	}
 	
 	static BigInteger fact ( BigInteger f ){
 		HashMap<Integer, Integer> cant = new HashMap<Integer, Integer>();
