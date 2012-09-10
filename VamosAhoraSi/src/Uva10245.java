@@ -1,12 +1,11 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringTokenizer;
-
-
 public class Uva10245 {
-
 	static double[][] m;
 	public static void main(String[] args) throws Exception{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -23,10 +22,15 @@ public class Uva10245 {
 					return val>0?1:(val<0)?-1:0 ;
 				}
 			});
+			DecimalFormatSymbols s = new DecimalFormatSymbols();
+            s.setDecimalSeparator('.');
+            DecimalFormat df = new DecimalFormat("0.0000",s);
+            
 			double r = closePoints(0,m.length-1);
 			double val = 10000.0000;
 			if(r <= val)
-				System.out.printf("%.4f\n", r);
+				//System.out.printf("%.4f\n", r);
+				System.out.println(df.format(r));
 			else
 				System.out.println("INFINITY");
 			N = Integer.parseInt(bf.readLine().trim());
