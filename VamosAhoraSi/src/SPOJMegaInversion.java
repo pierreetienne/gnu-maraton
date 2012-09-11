@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
@@ -20,17 +21,20 @@ public class SPOJMegaInversion {
 	
 	static int[] posiciones;
 	
+	static int N;
+	
 	public static void main(String[] args) throws Exception{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		for(String linea;(linea = bf.readLine())!=null;){
-			int N = Integer.parseInt(linea);
-			vec = new int[N];
+			N = Integer.parseInt(linea);
+			vec = new int[N+1];
 			segIni = new int[4*N];
 			segFin = new int[4*N];
 			segCant = new int[4*N];
-			segMay = new int[N];
-			segMen = new int[N];
-			posiciones = new int[N];
+			segMay = new int[N+1];
+			segMen = new int[N+1];
+			posiciones = new int[N+1];
 			StringTokenizer st = new StringTokenizer(bf.readLine());
 			for(int i=0;i<N;++i){
 				vec[i]=Integer.parseInt(st.nextToken());
@@ -39,28 +43,46 @@ public class SPOJMegaInversion {
 			segIni[0]=1;
 			segFin[0]=N;
 			llenarSegment(0);
-			for(int i=0;i<N;++i){
-				actualizarSeg(vec[i],0);
-			}
-			System.out.println( Arrays.toString(segMay));
-			System.out.println(Arrays.toString(segIni));
-			System.out.println(Arrays.toString(segFin));
-			System.out.println(contarEnRango(0, segMay.length-1, 0));
+			for(int i=0;i<N;++i)
+				actualizarSegMay(vec[i],0);
+			
+			Arrays.fill(segCant, 0);
+			for(int i=N-1;i>=0;--i)
+				actualizarSegMen(vec[i],0);
+//			BigInteger res = BigInteger.ZERO;
+			
+			long res = 0;
+			for(int i=0;i<N;++i)
+				res += segMay[i]*segMen[i];
+				//res = res.add(new BigInteger((segMay[i]*segMen[i])+""));
+			
+			sb.append(res+"\n");
+		}
+		System.out.print(new String(sb));
+	}
+	
+	static void actualizarSegMay( int n , int pos){
+		if(segIni[pos]== segFin[pos] && segIni[pos] == n){
+			segCant[pos]++;
+			segMen[posiciones[segIni[pos]]] = contarEnRango(segIni[pos]+1, N, 0);
+		}
+		else if(segIni[pos]!=segFin[pos]){
+			actualizarSegMay(n, (2*pos)+2);
+			actualizarSegMay(n, (2*pos)+1);
+			segCant[pos]= segCant[(2*pos)+2]+segCant[(2*pos)+1];
 		}
 	}
 	
-	static void actualizarSeg ( int n , int pos){
+	
+	static void actualizarSegMen(int n , int pos){
 		if(segIni[pos]== segFin[pos] && segIni[pos] == n){
 			segCant[pos]++;
-			
-			segMay[posiciones[segIni[pos]]] = contarEnRango(1, segIni[pos]-1, 0);
-			System.out.println(segIni[pos] + " -- " + segMay[posiciones[segIni[pos]]] );
-			System.out.println("Seg COnt " + Arrays.toString(segCant));
+			segMay[posiciones[segIni[pos]]] = contarEnRango(1,segIni[pos], 0);
 		}
 		else if(segIni[pos]!=segFin[pos]){
-			actualizarSeg(n, hijoIzq(pos));
-			actualizarSeg(n, hijoDer(pos));
-			segCant[pos]= segCant[hijoIzq(pos)]+segCant[hijoDer(pos)];
+			actualizarSegMen(n, (2*pos)+2);
+			actualizarSegMen(n, (2*pos)+1);
+			segCant[pos]= segCant[(2*pos)+2]+segCant[(2*pos)+1];
 		}
 	}
 	
@@ -70,19 +92,16 @@ public class SPOJMegaInversion {
 		else if(desde < hasta)
 		{
 			int cont = 0;
-			if(segIni[pos]<=desde && desde<= segFin[pos] && hasta<=segFin[pos])//desde y hasta estan contenidos 
-			{
-				int ini = segIni[hijoDer(pos)];
-				int fin = segFin[hijoDer(pos)];
-				if(desde <= fin)
-					cont+= contarEnRango(Math.max(desde, ini), Math.min(fin, hasta), hijoDer(pos));
-				
-				ini = segIni[hijoIzq(pos)];
-				fin = segFin[hijoIzq(pos)];
-				if(ini <= hasta)
-					cont+= contarEnRango(Math.max(desde, ini), Math.min(fin, hasta), hijoDer(pos));
-				
-			}
+			int index = (2*pos)+1;
+			int a = (segIni[index]> desde)?segIni[index]:desde;
+			int b = (segFin[index]< hasta)?segFin[index]:hasta;
+			if(a<=b)
+				cont = contarEnRango(a, b, index);
+			index = (2*pos)+2;
+			a = (segIni[index]> desde)?segIni[index]:desde;
+			b = (segFin[index]< hasta)?segFin[index]:hasta;
+			if(a<=b)
+				cont += contarEnRango(a, b, index);
 			return cont;
 		}
 		return 0;
@@ -90,16 +109,17 @@ public class SPOJMegaInversion {
 	
 	static void llenarSegment(int papa){
 		int mitad = (segIni[papa] + segFin[papa])/2;
-		int pos = hijoDer(papa);
+		int pos = (2*papa)+1;
 		segIni[pos]= segIni[papa] ;
 		segFin[pos] = mitad;
 		if(segIni[pos]!=segFin[pos])llenarSegment(pos);
-		pos = hijoIzq(papa);
+		pos = (2*papa)+2;
 		segIni[pos]=mitad+1;
 		segFin[pos] =segFin[papa] ;
 		if(segIni[pos]!=segFin[pos])llenarSegment(pos);
 	}
 	
-	static int hijoIzq(int i){ return (2*i)+2; }
-	static int hijoDer(int i){ return (2*i)+1; }
 }
+
+
+
