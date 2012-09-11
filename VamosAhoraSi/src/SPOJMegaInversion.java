@@ -49,14 +49,13 @@ public class SPOJMegaInversion {
 			Arrays.fill(segCant, 0);
 			for(int i=N-1;i>=0;--i)
 				actualizarSegMen(vec[i],0);
-//			BigInteger res = BigInteger.ZERO;
 			
-			long res = 0;
+			BigInteger res = BigInteger.ZERO;
+			
 			for(int i=0;i<N;++i)
-				res += segMay[i]*segMen[i];
-				//res = res.add(new BigInteger((segMay[i]*segMen[i])+""));
+				res = res.add(new BigInteger((segMay[i]*segMen[i])+""));
 			
-			sb.append(res+"\n");
+			sb.append(res.toString()+"\n");
 		}
 		System.out.print(new String(sb));
 	}
