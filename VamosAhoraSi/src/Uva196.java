@@ -77,7 +77,8 @@ public class Uva196 {
 			String c = p.pop();
 			int[] pos = posicion(c);
 			if(!esNumero(matriz[pos[0]][pos[1]])){
-				suma+=solucionarPosicion(pos[0], pos[1]);
+				matriz[pos[0]][pos[1]] =solucionarPosicion(pos[0], pos[1])+"";
+				suma+=Integer.parseInt(matriz[pos[0]][pos[1]]);
 			}else
 				suma+=Integer.parseInt(matriz[pos[0]][pos[1]]);
 		}
