@@ -1,27 +1,12 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Uva12516 {
 
 
-	static class No{
-		int num;
-		char posi;
-		public String toString(){
-			return "Num: "+ num +" Posi : " +posi; 
-		}
-	}
-	
-	static final Comparator<No> comparator =  new Comparator<No>() {
-		public int compare(No o1, No o2) {
-			return o1.num-o2.num;
-		}
-	};
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -31,86 +16,42 @@ public class Uva12516 {
 			StringTokenizer st = new StringTokenizer(linea);
 			int F = Integer.parseInt(st.nextToken()), C = Integer.parseInt(st.nextToken());
 			if(F==0 && C == 0) break;
-			int N = Integer.parseInt(bf.readLine().trim());
-			HashMap<Character, ArrayList<No>> data = new HashMap<Character, ArrayList<No>>();
+			boolean[][] m = new boolean[F][C+1];
+			int N = Integer.parseInt(bf.readLine());
 			for(int i=0;i<N;++i){
 				st = new StringTokenizer(bf.readLine());
-				String x = st.nextToken();
-				if(data.get(x.charAt(0))==null)
-					data.put(x.charAt(0),new ArrayList<No>());
-				int posy = Integer.parseInt(x.substring(1))-1;
-				String aux = x;
-				x = st.nextToken();
-				No p = new No();
-				p.num = posy;
-				p.posi = x.charAt(0);
-				data.get(aux.charAt(0)).add(p);				
+				String a = st.nextToken();
+				int fila = a.charAt(0)-'A';
+				int colum = Integer.parseInt(a.substring(1))-1;
+				a = st.nextToken();
+				if(a.trim().equals("-"))m[fila][colum]=true;
+				else m[fila][colum+1]=true;
 			}
-			N = Integer.parseInt(bf.readLine().trim());
-			
+			N = Integer.parseInt(bf.readLine());
+			int[][] info = new int[N][];
 			for(int i=0;i<N;++i){
-				String x = bf.readLine().trim();
-				int posy = Integer.parseInt(x.substring(1))-1;
-				if(data.get(x.charAt(0))==null)
-					data.put(x.charAt(0),new ArrayList<No>());
-				No p = new No();
-				p.num = posy;
-				data.get(x.charAt(0)).add(p);
+				String x = bf.readLine(); 
+				int fila = x.charAt(0)-'A';
+				int colum = Integer.parseInt(x.substring(1))-1;
+				info[i]= new int[]{fila,colum};
 			}
+			Arrays.sort(info, new Comparator<int[]>() {
+				public int compare(int[] o1, int[] o2) {
+					return o1[0]-o2[0]==0?o1[1]-o2[1]:o1[0]-o2[0];
+				}
+			});
 			
 			boolean funciona = true;
-			
-			for(Character c : data.keySet()){
-				Collections.sort(data.get(c),comparator);
-				ArrayList<No> info = data.get(c);
-				for(int i=0;i<info.size();++i){
-					No d = info.get(i);
-					if(d.posi=='-')
-					{
-						for(int j=i+1;j<info.size();++j){
-							No e = info.get(j);
-							if(e.posi=='\0')
-								e.posi='$';
-							else funciona = false;
-						}
-						for(int j=i-1;j>=0;--j)
-						{
-							No e = info.get(j);
-							if(e.posi=='\0')
-								e.posi='$';
-							else 
-								funciona = false;
-						}
-					}
-					else if(d.posi=='+')
-					{
-						for(int j=i+1;j<info.size();++j){
-							No e = info.get(j);
-							if(e.posi=='\0')
-								e.posi='%';
-							else break;
-						}
-						for(int j=i-1;j>=0;--j)
-						{
-							No e = info.get(j);
-							if(e.posi=='\0')
-								e.posi='%';
-							else break;
-						}
-					}
-					
-					
-				}
-				for(int i=0;i<info.size();++i){
-					No d = info.get(i);
-					if(d.posi=='\0'){ System.out.println("d: " + d);funciona=false;}
-				}
-				
-				System.out.println(c +" - " + data.get(c));
+			for(int i=0;i<N&&funciona;++i){
+				int fila = info[i][0];
+				int colum = info[i][1];
+				if(!m[fila][colum])
+					m[fila][colum]=true;
+				else if(!m[fila][colum+1])
+					m[fila][colum+1]=true;
+				else
+					funciona=false;
 			}
-			
-		
-			
 			sb.append((funciona)?"YES\n":"NO\n");
 		}
 		System.out.print(new String(sb));
