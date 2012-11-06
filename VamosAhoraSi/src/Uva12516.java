@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringTokenizer;
-
+//Accepted
 public class Uva12516 {
 
 
