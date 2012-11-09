@@ -17,20 +17,14 @@ public class Uva12519 {
 			int N = Integer.parseInt(st.nextToken()), B= Integer.parseInt(st.nextToken());
 			if(N ==0 && B == 0) break;
 			int[][] mAdy = new int[N][N];
-			for(int i=0;i<N;++i){Arrays.fill(mAdy[i],Integer.MAX_VALUE);mAdy[i][i]=0;}
+			for(int i=0;i<N;++i){Arrays.fill(mAdy[i],Integer.MAX_VALUE/2);}
 			for(int i=0;i<B;++i){
 				st = new StringTokenizer(bf.readLine());
 				int a =Integer.parseInt(st.nextToken())-1 , b =  Integer.parseInt(st.nextToken())-1 , costo = Integer.parseInt(st.nextToken());
 				mAdy[a][b]=costo;
 				mAdy[b][a]=-costo;
 			}
-//			for(int i=0;i<mAdy.length;++i )
-//				System.out.println(Arrays.toString(mAdy[i]));
-//			System.out.println();
 			mAdy = floydWarshall(mAdy);
-//			for(int i=0;i<mAdy.length;++i )
-//				System.out.println(Arrays.toString(mAdy[i]));
-//			System.out.println();
 			if(mAdy[0][0]>=0)sb.append("N\n");
 			else sb.append("Y\n");
 		}
