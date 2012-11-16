@@ -3,6 +3,11 @@ package pruebas;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+/**
+ * Tarea Redes 2 Algoritmo de cifrado One Time Pad
+ * Jorge Mario Barrantes Alvarez 
+ * @author Pierre Etienne Pradere Palacios
+ */
 public class OneTimePad {
 
 	public static void main(String[] args)throws Exception {

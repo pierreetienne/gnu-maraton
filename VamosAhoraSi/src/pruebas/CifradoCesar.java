@@ -4,6 +4,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
+
+/**
+ * Tarea Redes 2 Algoritmo de Cifrado Cesar
+ * Jorge Mario Barrantes Alvarez 
+ * @author Pierre Etienne Pradere Palacios
+ */
 public class CifradoCesar {
 
 	public static void main(String[] args) throws Exception {
