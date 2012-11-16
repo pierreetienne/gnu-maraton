@@ -8,6 +8,11 @@ import java.io.InputStreamReader;
  * Jorge Mario Barrantes Alvarez 
  * @author Pierre Etienne Pradere Palacios
  */
+/**
+ * Caso :AMARELLOCIO 
+ * LLave:RFTWKCGFRTH
+ * Salida:SSUOPOSUUCW
+ */
 public class OneTimePad {
 
 	public static void main(String[] args)throws Exception {
