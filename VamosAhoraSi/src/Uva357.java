@@ -28,7 +28,7 @@ public class Uva357 {
 		m = new int[30001];
 		Arrays.fill(m,-1);
 		memo = new int[30006][6];
-		for(int i=0;i<m.length;++i){
+		for(int i=30000;i<m.length;++i){
 			N=i;
 		//	memo = new int[i][6];
 			for(int j=0;j<i;++j)Arrays.fill(memo[j], -1);
