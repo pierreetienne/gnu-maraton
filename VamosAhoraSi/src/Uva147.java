@@ -27,7 +27,7 @@ public class Uva147 {
 		StringBuilder sb = new StringBuilder();
 		for(String linea;(linea=bf.readLine())!=null;){
 			linea = linea.trim();
-			N = (int) (Double.parseDouble(linea)*100+0.5);
+			N = (int) (Double.parseDouble(linea)*100+1e-10);
 //			N = (int) (Double.parseDouble(linea)*20+0.5);
 			if(N==0)break;
 			String val = f(0,N)+"";
