@@ -1,20 +1,25 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
 public class Uva562 {
 
 	static int[] m;
-	
-	static int mitad;
-	static int f(int pos, int val){
-		if(val==0)return 0;
-		if(val<0)return Integer.MAX_VALUE;
-		if(pos >= m.length)return Integer.MAX_VALUE;
-		return Math.min(f(pos+1,val), Math.min(f(pos+1,val-m[pos]), (val-m[pos]>=0)?val-m[pos]:Integer.MAX_VALUE));
+
+
+	static int f(int pos , int l, int x){
+		if(l == x && l+x>0)
+			return 0;
+		else if(pos+1<m.length)
+			return Math.min(f(pos+1, l+m[pos],x),f(pos+1, l, x+m[pos]));
+		else
+			return Math.abs(l-x);
 	}
-	
+
+
+
 	public static void main(String[] args) throws Exception{
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(bf.readLine());
@@ -22,19 +27,14 @@ public class Uva562 {
 			int C = Integer.parseInt(bf.readLine());
 			StringTokenizer st = new StringTokenizer(bf.readLine());
 			m = new int[C];
-			int suma = 0 ;//nooooooooooooooooo
+			int suma = 0 ;
 			for(int i=0;i<C;++i)
 				suma += m[i]=Integer.parseInt(st.nextToken());
-			mitad = (int) Math.ceil((double)(suma/2));
-			int val =f(0,mitad);
-			int res = 0;
-			if(val == 0 ){
-				res = (suma-mitad)-mitad;
-			}
-			else {
-				res = val+(suma-mitad)-1;
-			}
-			System.out.println(res);
+			Arrays.sort(m);
+			int min = f(0, 0, 0);
+
+			System.out.println(min);
+
 		}
 	}
 
