@@ -9,16 +9,13 @@ public class Pruebas {
 	 */
 	public static void main(String[] args) {
 
-		char[] m = "la casa blanca".toCharArray();
-
-		int T[] = getBorderArray(m);
-		System.out.println(Arrays.toString(T));
-
-
-
-		System.out.println(indexOf("blanca".toCharArray(), m, T));
-
-
+		Integer x = 129; 
+		Integer y = 129;
+		System.out.println(x.compareTo(y));
+		
+//		ListVoteView view=new ListVoteView();
+//		view.onClick();
+//		view.linkPapa();
 
 	}
 
