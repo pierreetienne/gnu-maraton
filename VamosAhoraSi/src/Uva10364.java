@@ -1,56 +1,45 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Uva10364 {
-
-	static int[] nums;
-
-	static double r;
-
-	static boolean f(int index, double val) {
-		if (val == r)
-			return true;
-		if (val > r)
-			return false;
-		if(index < nums.length){
-			if (nums[index] != -1) {
-				boolean x = f(index + 1, val + nums[index]);
-				if (x) {
-					nums[index] = -1;
-					return true;
-				}
-				boolean y = f(index + 1, val);
-				return x||y ;
-			}
-			else {
-				return f(index+1 , val);
-			}
-		}
-		return false;
+	static int M;
+	static ArrayList<Integer> sol;
+	static byte mem[][][];
+	static boolean f(int A,int j,int i) {
+		if(i==4)return A==(1<<M)-1;
+		if(j==sol.size())return false;
+		if(mem[A][j][i]!=0)return mem[A][j][i]==1;
+		boolean ws=f(A,j+1,i);
+		if(!ws&&(A&sol.get(j))==0)
+			ws=f(A|sol.get(j),j+1,i+1);
+		mem[A][j][i]=ws?(byte)1:(byte)2;
+		return ws;
 	}
-
 	public static void main(String[] args) throws Exception {
-		// BufferedReader bf = new BufferedReader(new
-		// InputStreamReader(System.in));
 		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();// Integer.parseInt(bf.readLine().trim());
+		int N = sc.nextInt();
 		StringBuilder sb = new StringBuilder();
 		while (N-- > 0) {
-			// String linea = bf.readLine();
-			// StringTokenizer st = new StringTokenizer(linea);
-			int M = sc.nextInt();// Integer.parseInt(st.nextToken());
-			nums = new int[M];
-			long suma = 0;
-			for (int i = 0; i < M; ++i)
-				suma += nums[i] = sc.nextInt();// Integer.parseInt(st.nextToken());
-
-			r = (double) ((double) suma) / (double) 4;
-			if( f(0, 0) &&f(0, 0) &&f(0, 0) &&f(0, 0) ) 
-				sb.append("yes\n");
-			else
-				sb.append("no\n");
-
+			M = sc.nextInt();
+			int info[] = new int[M];
+			int s=0;
+			for(int i=0;i<M;++i)
+				s+=(info[i] = sc.nextInt());
+			if(s%4==0) {
+				sol=new ArrayList<>();
+				for(int i=0;i<1<<M;i++) {
+					int sum=0;
+					for(int j=0;j<M;j++)
+						if((i&(1<<j))!=0)
+							sum+=info[j];
+					if(sum==s/4)sol.add(i);
+				}
+				System.out.println(sol.size());
+				mem=new byte[1<<M][sol.size()][4];
+				System.out.println(f(0,0,0));
+			}
+			else System.out.println("no");
 		}
 		System.out.print(new String(sb));
 	}
-
 }
