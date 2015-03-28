@@ -13,7 +13,6 @@ public class ACM2324 {
 	
 	static char p[],m[];
 	
-	
 	static int[][] memo;
 	
 	static int f(int i, int j){
