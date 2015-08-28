@@ -1,33 +1,21 @@
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.Stack;
 
 
 public class CF1B {
 
+	
+	static Map<Integer, Character> letters ;
+	
 	public static void main(String[] args) throws Exception {
-		//		int cont = 0;
-		//		List<String> l = new ArrayList<String>();
-		//		for(int i='A';i<='Z';++i){
-		//			for(int j='A';j<='Z';++j){
-		//				System.out.println((char)(i) +""+(char)(j));
-		//				l.add((char)(i) +""+(char)(j));
-		//				cont++;
-		//			}
-		//		}
-		int otro =0;
-		for(int i=1;i<=17603;++i){
+		for(int i=0;i<=5000;++i){
 			String num = numToColumn(i);
-//			System.out.println("i " + i + "  num  " + num);
-			if(i>=26&& i<=675)
-				otro++;
 		}
 
-
-
-
+		System.out.println("fin");
+		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for(String ln;(ln=in.readLine())!=null;){
 			int n = Integer.parseInt(ln);
@@ -80,64 +68,47 @@ public class CF1B {
 	}
 
 	static String numToColumn(int num ){
-		char[] n = null;
-		int val = 1;
-		int cont = 0;
-		while(val*26 <=num ){
-			cont++;
-			val *=26;
-		}
-		n = new char[Math.max(cont,1)];
-		for(int i=0;i<n.length;++i)
-			n[i]='A';
+		Stack<Character> n = new Stack<Character>();
+		n.push('A');
+		/**
+		 * suma
+		 */
+		int dif = Math.abs(num);
 
-		n = sum(Math.abs(val-num), n);
-		System.out.println(Math.abs(val-num)+"  "+num +" B>> " +  Arrays.toString(n));
-		return new String(n);
-	}
-
-	static char[] sum(int diff , char[] n){
-		int llevo = 0;
-		for(int j=n.length-1;j>=0;--j){
-			if(j==n.length-1){
-				int value = n[j]-'A';
-				n[j]=(char) (( (value+diff)%26)+'A');
-				llevo= Math.abs(value+diff)/26;
-			}
-//			else if(llevo!=0){
-//				int value = n[j]-'A';
-//				n[j]=(char) (( (value+llevo)%26)+'A');
-//				llevo= ((value+llevo)>=26)?1:0;
-//			}
-		}
-		return n;
-	}
-
-
-	static char[] rest(int diff , char[] n){
-		int llevo = 0;
-		for(int j=n.length-1;j>=0;--j){
-			if(j==n.length-1){
-				int value = n[j]-'A';
-				int xx = (value-diff);
-				if(xx < 0){
-					xx = 26+xx;
-					llevo = 1;
+		int llevo =0;
+		for(int j=0;j<n.size();++j){
+			int d = 'Z'-n.get(j).charValue();
+			if(llevo==0 ){
+				if(d >= dif){
+					n.set(j,(char)(n.get(j)+dif));
+					dif=0;
+				}else{
+					int diferencia = dif-d-1;
+					while(diferencia+'A'>'Z'){
+						diferencia-= d+1;
+						llevo++;
+						System.out.println("asdasdasd");
+					}
+					n.set(j,(char)(('A'+diferencia)));
+					llevo++;
+					n.push('A');
 				}
-				n[j]=(char) ((xx %26)+'A');
-				//		llevo= (xx>=26)?1:0;
-			}else if(llevo!=0){
-				int value = n[j]-'A'; 
-				int xx = (value-llevo);
-				if(xx < 0){
-					xx = 26+xx;
-					llevo = 1;
-				}
-				n[j]=(char) (( xx%26)+'A');
+			}else{
 			}
 		}
-		return n;
+		System.out.println(num+ " *** " +print( n));
+		//		System.out.println( num+ " Arrays: " + n +" mas " + dif );
+		return new String();
 	}
-
-
+	
+	
+	static String print(Stack<Character> s ){
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		while(!s.isEmpty()){
+			sb.append(s.pop()+",");
+		}
+		sb.append("}");
+		return new String(sb);
+	}
 }
