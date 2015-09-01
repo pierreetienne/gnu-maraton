@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 
 public class CF1B {
@@ -12,16 +11,6 @@ public class CF1B {
 			letters[i]=(char) ('A'+i);
 		}
 
-		for(int i=1;i<100;++i){
-			
-			String num = numToColumn(i);
-			int va = 0;
-			if((va=columnToNum(num))!=i)
-			{
-				System.out.println(i + " paila " + num + "  v  a " + va );
-			}
-		}
-		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for(String ln;(ln=in.readLine())!=null;){
 			int n = Integer.parseInt(ln);
@@ -46,7 +35,6 @@ public class CF1B {
 						num=true;
 					}
 				}
-
 				if(chars2.isEmpty()){
 					System.out.println("R"+num1+"C"+columnToNum(chars));
 				}else{
@@ -61,15 +49,27 @@ public class CF1B {
 		int value = 1;
 		column = column.toUpperCase();
 		if(column.length()>1){
-			for(int i=0;i<column.length();++i){
-				int v = (column.charAt(i)-'A')+26;
-//				System.out.println("V " + v + "  co " + column.charAt(i));
-				
-				if(i+1==column.length())
-					value+=column.charAt(i)-'A'+1;
-				else
-					value*=v;
+			int val = (int) Math.pow(26, column.length()-1);
+			if(column.length()==2){
+				val+=((column.charAt(0)-'A')*26)+1;
+				val+=(column.charAt(column.length()-1)-'A');
+			}else if(column.length()==3){
+				val+=(column.charAt(0)-'A')*val;
+				val+=(column.charAt(1)-'A')*26;
+				val+=(column.charAt(2)-'A')+27;
+			}else if(column.length()==4){
+				val+=(column.charAt(0)-'A')*val;
+				val+=(column.charAt(1)-'A'+1)*26*26;
+				val+=(column.charAt(2)-'A')*26;
+				val+=(column.charAt(3)-'A')+27;
+			}else if(column.length()==5){
+				val+=(column.charAt(0)-'A')*val;
+				val+=(column.charAt(1)-'A'+1)*26*26*26;
+				val+=(column.charAt(2)-'A'+1)*26*26;
+				val+=(column.charAt(3)-'A')*26;
+				val+=(column.charAt(4)-'A')+27;
 			}
+			value = val;
 		}else
 			value =( column.charAt(0)-'A')+1;
 		return value;

@@ -3,9 +3,10 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 
 public class CF515C {
@@ -13,114 +14,90 @@ public class CF515C {
 	static long[] memo;
 	static int[] candidates = new int[]{2,3,4,5,6,7,8,9};
 	static BigInteger fNum, max = BigInteger.ZERO;
+	static long[] primos ;
 	public static void main(String[] args) throws Exception {
 		memo = new long[10];
 		memo[0]=1;
 		memo[1]=1;
 		for(int i=2;i<memo.length;++i)
 			memo[i]=i*memo[i-1];
-		
-		
-		
-		System.out.println(Arrays.toString(memo));
+//		System.out.println("memo " + Arrays.toString(memo));
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for(String ln;(ln=in.readLine())!=null;){
 			int n = Integer.parseInt(ln);
 			String number = in.readLine();
 			fNum = f(number);
+//			primos = getPrimos((int)memo[9]+1);
+//			
+//			for(int i=2;i<memo.length;++i){
+//				long[][] fact = factoresPrimos(memo[i], primos);
+//				for(long[] x : fact)
+//					System.out.println(memo[i] + " = " + Arrays.toString(x));
+//				
+//			}
 			
+			BigInteger big = new BigInteger(number);
 			
-			List<Integer> listChar = new ArrayList<Integer>();
+			String result = "";
+			for(int i=0;i<number.length();++i){
+				int val = number.charAt(i)-'0';
+				if(val==4)
+					result+="322";
+				else if(val>1)
+					result+=val;
+			}
 			
-			 f(listChar,2);
-			 System.out.println(max);
-			
-		
-			
-			
-		}
-
-	}
+//			System.out.println("fNum " +fNum);
+//			Queue<String> c = new LinkedList<String>();
+//			Queue<BigInteger> c1 = new LinkedList<BigInteger>();
+//			for(int i=0;i<candidates.length;++i){
+//				c.add(""+candidates[i]);
+//				c1.add(new BigInteger(""+candidates[i]));
+//			}
+//			String res = number;
+//			boolean encontre = false;
+//			while(!encontre && !c.isEmpty()){
+//				String actual = c.poll();
+//				BigInteger valuF = c1.poll();
+//				BigInteger bigActual = new BigInteger(actual);
 //
-	static BigInteger f(List<Integer> list, int index ){
-		Collections.sort(list, new Comparator<Integer>() {
-			public int compare(Integer o1, Integer o2) {
-				return o2.intValue()-o1.intValue();
+//				//				System.out.println("actual " +actual + " value " + valuF  + " fNum " + fNum + "  compare ");
+//				if(valuF.equals(fNum) && bigActual.compareTo(big)>0){
+//					res = actual;
+//					encontre=true;
+//				}else{
+//					if(valuF.compareTo(fNum)<0){
+//						for(int i=0;i<candidates.length;++i){
+//							c.add(actual+""+candidates[i]);
+//							c1.add(valuF.multiply(BigInteger.valueOf( memo[candidates[i]]  )));
+//						}
+//					}
+//				}
+//			}
+//
+			Integer[] list = new Integer[result.length()];
+			for(int i=0;i<list.length;++i){
+				list[i]= result.charAt(i)-'0';
 			}
-		});
-		BigInteger res = f(list);
-		System.out.println("list " + list + " index " +  index  + "  fNum " + fNum + " res " + res + " equeals "  +res.equals(fNum));
-		if(res.equals(fNum) ){
-			if(res.compareTo(max)>0)
-				max = res;
-			return res;
-		}
-		if(list.size()==0 && index==9)
-			return BigInteger.ZERO;
-		if(list.size()>16)
-			return BigInteger.ZERO;
-		
-		if(res.compareTo(fNum)>0)
-			return BigInteger.ZERO;
-		
-		
-		
 
-		List<Integer> org =  new ArrayList<Integer>();
-		List<Integer> org1 =  new ArrayList<Integer>();
-		List<Integer> org2 =  new ArrayList<Integer>();
-		for(int i=0;i<list.size();++i){
-			org.add(list.get(i));
-			org1.add(list.get(i));
-			org2.add(list.get(i));
-		}
-		
-		int nextIndex = index+1;
-		if(nextIndex>=10){
-			nextIndex=2;
-		}
-		BigInteger a = BigInteger.ZERO;
-		if(org.size()>0)
-			a= f(addOne(org),index);
-		org1.add(index);
-		BigInteger b = f(org1,nextIndex);
-		org2.add(index);
-		BigInteger c = f(org2, index);
-		
-		
-		System.out.println(a + " " + b + "  " + c);
-		
-		BigInteger max = BigInteger.ZERO;
-		if(a.compareTo(b)>0 && a.compareTo(c)>0 )
-			max = a;
-		else if(b.compareTo(a)>0 && b.compareTo(c)>0 )
-			max = b;
-		else if(c.compareTo(a)>0 && c.compareTo(b)>0 )
-			max =  c;
-		System.out.println("max " + max);
-		return max;
-	}
-	
-	static List<Integer> addOne(List<Integer>  list ){
-		int sum =1 ;
-		for(int i=list.size()-1;i>=0;--i){
-			if(list.get(i)+sum>=10){
-				if(i-1<0){
-					list.add(2);
-				}else{
-					list.set(i-1, list.get(i-1)+1);
+			Arrays.sort(list, new Comparator<Integer>() {
+				public int compare(Integer o1, Integer o2) {
+					return o2.intValue()-o1.intValue();
 				}
-				list.set(i, 2);
-				sum=0;
-			}else {
-				list.set(i, list.get(i)+sum);
-				sum=0;
-			}
+			});
+
+			String fin = "";
+			for(int i=0;i<list.length;++i)
+				fin += list[i];
+			
+			BigInteger nBig = new BigInteger(fin);
+			if(nBig.compareTo(big)>0)
+				System.out.println(nBig);
+			else 
+				System.out.println(big);
+			
 		}
-		return list;
 	}
-	
-	
 	static BigInteger f(List<Integer> list){
 		String x = "";
 		for(int xx: list){
@@ -128,7 +105,6 @@ public class CF515C {
 		}
 		return f(x);
 	}
-	
 	static BigInteger f(String n ){
 		BigInteger x = BigInteger.ONE;
 		for(int i=0;i<n.length();++i){
@@ -136,8 +112,46 @@ public class CF515C {
 		}
 		return x;
 	}
-	
-	
-	
 
+	static long[] getPrimos(int cota) {
+		boolean[] arr = new boolean[cota + 1];
+		long[] res = new long[cota];
+		arr[0] = arr[1] = true;
+		int K = 0;
+		for (int i = 0; i < arr.length; i++)
+			if (!arr[i]) {
+				res[K++] = i;
+				for (int j = 2 * i; j < arr.length; j += i) arr[j] = true;
+			}
+		return Arrays.copyOfRange(res, 0, K);
+	}
+
+
+
+	static long[][] factoresPrimos(long x, long[] primos) {
+		List<long[]> res=new ArrayList<long[]>(); double R=(long)(Math.sqrt(x)+1+1e-5); long p,c;
+		for (int i=0,n=primos.length; i<n&&(p=primos[i])<=R; i++) {
+			for (c=0; x%p==0; x/=p,c++); if (c>0) res.add(new long[]{p,c});
+		}
+		if (x>1) res.add(new long[]{x,1});
+		return res.toArray(new long[0][]);
+	}
+	
+	static List<Integer> lista(int index ){
+		List<Integer> list = new ArrayList<Integer>();
+		
+		
+		return list;
+	}
+	
 }
+/*
+
+15
+012345781234578
+
+
+7777553333222222222222
+
+
+ */
