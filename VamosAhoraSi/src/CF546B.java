@@ -7,31 +7,37 @@ import java.util.StringTokenizer;
 public class CF546B {
 
 	public static void main(String[] args) throws Exception  {
-		System.out.println(f(a.length()-1, b.length()-1));
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for(String ln;(ln=in.readLine())!=null;){
 			int N = Integer.parseInt(ln);
 			int m[] = new int[N];
+			boolean[] nums = new boolean[10001];
 			StringTokenizer st = new StringTokenizer(in.readLine());
 			for(int i=0;i<N;++i){
 				m[i]=Integer.parseInt(st.nextToken());
+				nums[m[i]]=true;
 			}
 			Arrays.sort(m);
-
-
+			int cont = 0;
+			for(int i=0;i<N-1;++i){
+				if(i>=0&&m[i]==m[i+1]){
+					int num = -1;
+					for(int j=m[i];j<nums.length&& num==-1;++j){
+						if(!nums[j]){
+							num = j;
+							break;
+						}
+					}
+					cont+= Math.abs(num - m[i]);
+					m[i]=num;
+					nums[num]=true;
+					Arrays.sort(m);
+					i=-1;
+				}
+			}
+			Arrays.sort(m);
+			System.out.println(cont);
 		}
 	}
-
-	static String a = "exponential";
-	static String b = "polynomial";
-
-	static int f(int i, int j ){
-		if(i>=0 && j>=0){
-			int val = 1;
-			return Math.min(f(i-1,j)+val,Math.min(f(i,j-1)+val,f(i-1,j-1)+val));
-		}return 0;
-	}
-
-
-
 }
+

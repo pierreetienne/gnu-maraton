@@ -43,9 +43,5 @@ public class CF472B {
 	}
 	
 	
-	static int f(int pisoActual, int persona){
-		
-		return Math.min(f(m[persona],persona+1)+Math.abs(pisoActual-m[persona]), f(pisoActual, persona+1));
-	}
 
 }
