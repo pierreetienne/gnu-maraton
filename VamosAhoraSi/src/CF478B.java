@@ -22,27 +22,28 @@ public class CF478B {
 			}else{
 				long div = n/2;
 				long res = n%2;
-
-				if(div<m){
-					div= (Math.abs(div-m))-div;
-					System.out.println("grupos de dos que puedo hacer : " + div);
-					long value = f(1)*div;
-					max = Math.max(max, value);
-					min = Math.min(min, value);
-				}else if(div == m){
-					long value = f(1)*div;
+				long size = 2;
+				if(res>0&&div>1)
+					size++;
+				
+				long value =0;
+				if(div>=m){
+					size+=(div-m)*2;
+					value =  f(size-1)+((n-size)/2);
 					max = Math.max(max, value);
 					min = Math.min(min, value);
 				}else{
-					long cantDeMas = (long) Math.abs(div-m);
-					cantDeMas=(cantDeMas+1)*2;
-					long value = f(cantDeMas-1);
+					
+					System.out.println("m " + m +  " div " + div );
+					long diff = (m-div>=0?m-div:0);
+					value = f(1)*(div-diff);
 					max = Math.max(max, value);
 					min = Math.min(min, value);
 				}
-
-
-				long value = f(n-(m-1)-1);
+				
+				
+				
+				value = f(n-(m-1)-1);
 				max = Math.max(max, value);
 				min = Math.min(min, value);
 			}
@@ -51,23 +52,6 @@ public class CF478B {
 
 			System.out.println(min+" " + max);
 
-		}
-	}
-
-	static void a(long n , long m , long aux ){
-		long div = (long) Math.floor(n / m);
-		long res = n%m;
-		if(res==0){
-			long value = f((div)-1)*m;
-			if(div<aux)
-				value--;
-
-			max = Math.max(max, value);
-			min = Math.min(min, value);
-		}else{
-			long value = (f(m-1)*div);
-			max = Math.max(max, value);
-			min = Math.min(min, value);
 		}
 	}
 
