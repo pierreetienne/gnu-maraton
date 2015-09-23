@@ -20,41 +20,25 @@ public class CF478B {
 			}else if(m==n){
 				max=min=0;
 			}else{
-				long div = n/2;
-				long res = n%2;
-				long size = 2;
-				if(res>0&&div>1)
-					size++;
-				
 				long value =0;
-				if(div>=m){
-					size+=(div-m)*2;
-					value =  f(size-1)+((n-size)/2);
-					max = Math.max(max, value);
-					min = Math.min(min, value);
-				}else{
-					
-					System.out.println("m " + m +  " div " + div );
-					long diff = (m-div>=0?m-div:0);
-					value = f(1)*(div-diff);
-					max = Math.max(max, value);
-					min = Math.min(min, value);
-				}
+				value =0;
+				long x = (long) Math.floor(Double.parseDouble(n+"") / Double.parseDouble(m+""));
+				long xx = (long) Math.floor(Double.parseDouble(n+"") % Double.parseDouble(m+""));
+				value  = ((xx)*f(x))+ (m-xx)*f(x-1);
+				long y =(xx)*(x);
+				y = y +(m-xx)*(x);
+				//value-= f(n-y-1);
 				
-				
-				
+				max = Math.max(max, value);
+				min = Math.min(min, value);
+
 				value = f(n-(m-1)-1);
 				max = Math.max(max, value);
 				min = Math.min(min, value);
 			}
-
-
-
 			System.out.println(min+" " + max);
-
 		}
 	}
-
 	static long f(long num ){
 		long v = (num*(num+1))/2;
 		return v;
