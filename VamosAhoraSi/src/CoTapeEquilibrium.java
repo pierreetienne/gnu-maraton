@@ -24,7 +24,7 @@ public class CoTapeEquilibrium {
 		for(int i=1;i<A.length;++i){
 			A[i]+=A[i-1];
 		}
-		for(int i=0;i<A.length-1;++i){
+		for(int i=0;i<A.length;++i){
 			int val = Math.min(min , Math.abs(A[i]- (A[A.length-1]- A[i])));
 			min = Math.min(val, min);
 		}
