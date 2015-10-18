@@ -27,19 +27,12 @@ public class CF572A {
 			Arrays.sort(aK);
 			Arrays.sort(bM);
 			boolean ok = false;
-			for(int i=0;i<sizeB&&!ok;++i){
-				int val = Arrays.binarySearch(aK,bM[i]);
-				int index = 0;
-				if(val < 0 ){
-					index = (val*-1)-1;
-				}else{
-					index = val-1;
-				}
-				System.out.println("en : "  + Arrays.toString(aK) +  " busco " + (bM[i]) + " -> " + val + " index : " + index + " k: " + k + " Math.abs(i-sizeB): "+Math.abs(i-sizeB));
-
-				if(index>=k && Math.abs(i-sizeB)>=m)
+			long val = bM[bM.length-m];
+			for(int i=aK.length-1;i>=0&&!ok;--i){
+				if(aK[i]<val&& (i+1)>=k)
 					ok = true;
 			}
+		
 			System.out.println(ok?"YES":"NO");
 
 		}
