@@ -9,25 +9,15 @@ public class CF570B {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for(String ln;(ln=in.readLine())!=null;){
 			StringTokenizer st = new StringTokenizer(ln);
-			int n = Integer.parseInt(st.nextToken()), m = Integer.parseInt(st.nextToken());
-			int min = 1;
-			int max = m;
-			int med = (int) ((min + max) / 2.);
-			int dis = Math.abs(min-max);
-			System.out.println("dis " +dis + "  med " + med + " min " + min + " max "+ max);
-			int med2 = 0;
-			int dis2 = 0;
-			if(m+1 < n ){
-				int a = m+1;
-				int b = n;
-				dis2 = Math.abs(a-b);
-				med2 = (int) ((a+b)/2.);
-				System.out.println("2dis " +dis2 + "  med2 " + med2 + " min " + a + " max "+ b);
-			}
-			if(dis>= dis2){
-				System.out.println(med);
-			}else
-				System.out.println(med2);
+			long n = Long.parseLong(st.nextToken());
+			long m = Long.parseLong(st.nextToken());
+			long disA = Math.abs(m-n);
+			long disB = m-1;
+			if(disB>disA ){
+				System.out.println(m-1>=1?m-1:m);
+			}else 
+				System.out.println(m+1<=n?m+1:m);
+			
 		}
 	}
 
