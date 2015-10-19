@@ -13,12 +13,11 @@ public class CF570B {
 			long m = Long.parseLong(st.nextToken());
 			long disA = Math.abs(m-n);
 			long disB = m-1;
-			if(disB>disA ){
+			if(disB>=disA ){
 				System.out.println(m-1>=1?m-1:m);
 			}else 
 				System.out.println(m+1<=n?m+1:m);
 			
 		}
 	}
-
 }
