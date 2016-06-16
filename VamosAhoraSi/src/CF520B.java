@@ -27,8 +27,10 @@ public class CF520B {
 			int b = p1.poll();
 			if(a == m )
 				return b;
-			p.add(a*2);
-			p1.add(b+1);
+			if(a<m){
+				p.add(a*2);
+				p1.add(b+1);
+			}
 			p.add(a-1);
 			p1.add(b+1);
 		}
