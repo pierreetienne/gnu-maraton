@@ -11,24 +11,13 @@ public class CF675A {
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 			int c = Integer.parseInt(st.nextToken());
-			int aux = -1;
-			int aux2 = -1;
 			boolean ok = false;
-			while(!ok){
-				if(aux != -1 )
-					aux2 = aux;
-				aux = c + a;
-				System.out.println(a+  " " + aux);
-				if(aux==b||a==b|| aux2 %b ==0 ){
-					ok = true;
-				}else{
-					a = aux;
-				}
-				boolean asc = aux > aux2;
-				if(aux2!=-1 && asc && aux > b)
-					break;
-				if(aux2!=-1 && !asc && aux < b)
-					break;
+			if(c != 0 ){
+				int x = ( b - a )/ c;
+				int y = a + (c*x);
+				ok = (y == b)&& x>=0;
+			}else{
+				ok = a == b;
 			}
 			System.out.println(ok?"YES":"NO");
 		}
