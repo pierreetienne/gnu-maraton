@@ -7,9 +7,16 @@ public class CF233A {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for(String ln;(ln=in.readLine())!=null;){
 			int N = Integer.parseInt(ln);
-			if(N == 1)System.out.println(-1);
+			if(N %2 !=0 )System.out.println(-1);
 			else{
-				
+				StringBuilder sb = new StringBuilder();
+				for(int i=0;i<N;i+=2){
+					if(i==0)
+						sb.append((i+2)+" "+ (i+1));
+					else
+						sb.append(" "+(i+2)+" "+ (i+1));
+				}
+				System.out.println(new String(sb));
 			}
 		}
 	}
