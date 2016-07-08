@@ -4,51 +4,51 @@ import java.math.BigInteger;
 
 public class CF508B {
 
-	public static void main(String[] args)throws Exception  {
+	public static void main(String[] args) throws Exception {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for(String ln;(ln=in.readLine())!=null;){
-			
 			int index = -1;
 			int min = Integer.MAX_VALUE;
-			for(int i=0;i<ln.length();++i){
-				int val = ln.charAt(i)-'0';
-				if(val%2==0){
-					if(min>=val){
-						index = i;
-						min = val;
-					}
+			for(int i=ln.length()-1;i>=0;--i){
+				int value = ln.charAt(i)-'0';
+				if(value%2==0 && min>=value){
+					min = value;
+					index=i;
 				}
 			}
-			
 			if(index!=-1){
-				int val = ln.charAt(index)-'0';
-				boolean firts = val > (ln.charAt(ln.length()-1)-'0');
-				if(firts){
-					
-				}
-				
-				
-			}
-			
-			if(index != -1){
-				char[] num = ln.toCharArray();
-				char n = num[index];
-				num[index]=num[num.length-1];
-				num[num.length-1] = n;
-				BigInteger par  = new BigInteger(new String(num));
-				if(par.mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO)){
-					System.out.println(par);
-				}else{
-					System.out.println(-1);
-				}
-			}else{
-				if((new BigInteger(ln)).mod(BigInteger.valueOf(2)).equals(BigInteger.ZERO)){
+				if((ln.charAt(ln.length()-1)-'0')%2==0){
 					System.out.println(ln);
 				}else{
-					System.out.println(-1);
+					char m[] = ln.toCharArray();
+					int lastValue = ln.charAt(ln.length()-1)-'0';
+					if(lastValue>min){
+						int auxIndex = -1;
+						for(int i=0;i<m.length&&auxIndex==-1;++i){
+							int value = m[i]-'0';
+							if(value%2==0 && value<lastValue)
+								auxIndex=i;
+						}
+						char aux = m[auxIndex];
+						m[auxIndex] = m[ln.length()-1];
+						m[ln.length()-1]=aux;
+						System.out.println((new String(m)));
+					}else{
+						int auxIndex = -1;
+						for(int i=ln.length()-1;i>=0&&auxIndex==-1;--i){
+							int value = ln.charAt(i)-'0';
+							if(value%2==0)
+								auxIndex=i;
+						}
+						char aux = m[auxIndex];
+						m[auxIndex] = m[ln.length()-1];
+						m[ln.length()-1]=aux;
+						System.out.println((new String(m)));
+					}
 				}
+			}else{
+				System.out.println(-1);
 			}
-
 		}
 	}
 }
