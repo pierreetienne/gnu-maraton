@@ -11,20 +11,19 @@ public class CF688A {
 			int n = Integer.parseInt(st.nextToken());
 			int d = Integer.parseInt(st.nextToken());
 			int sol = 0 ;
-			int lastIndex = -1;
-			int count = 0;
+			int cont = 0;
 			for(int i=0;i<d;++i){
 				ln = in.readLine();
 				boolean zeros = ln.indexOf('0')>=0;
 				if(zeros){
-					if(i-1==lastIndex){
-						count++;
-					}
-					lastIndex= i;
-					sol = Math.max(sol, count);
+					cont++;
+				}else{
+					sol = Math.max(cont, sol);
+					cont=0;
 				}
 			}
-			System.out.println((int)Math.max(1, sol));
+			sol = Math.max(cont, sol);
+			System.out.println(sol);
 		}
 
 	}
