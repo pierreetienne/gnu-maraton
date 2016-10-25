@@ -1,7 +1,6 @@
 import java.io.FileInputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -19,25 +18,26 @@ public class EdxWeek1F {
 				int W=Integer.parseInt(st.nextToken());
 				int H=Integer.parseInt(st.nextToken());
 				keys=new TreeMap<>();
-				for(int i=0;i<H;++i){
+				for(int i=H-1;i>=0;--i){
 					ln=in.nextLine();
 					for(int j=0;j<W;++j){
-						keys.put(ln.charAt(j), new int[]{i,j});
+						keys.put(ln.charAt(j), new int[]{i+1,j+1});
 					}
 				}
+				System.out.println(">>> " + Arrays.toString(keys.get(' ')));
 				in.nextLine();
 				String betterLanguage=null;
 				int len=Integer.MAX_VALUE;
 				while(in.hasNextLine()){
 					String nameLang=in.nextLine();
-					List<String> lines=new ArrayList<>();
+					StringBuilder sb = new StringBuilder();
 					while(in.hasNextLine()){
 						String line=in.nextLine();
+						sb.append(line);
 						if(line.trim().length()==0)
 							break;
-						lines.add(line);
 					}
-					int lenLang = len(lines);
+					int lenLang = len(new String(sb));
 					if(lenLang<len){
 						betterLanguage=nameLang;
 						len=lenLang;
@@ -49,27 +49,32 @@ public class EdxWeek1F {
 		}
 	}
 
-	static int len(List<String> lines ){
+	static int len(String line ){
 		int len=0;
 		Character last=null;
-		for(int i=0;i<lines.size();++i){
-			String line=lines.get(i);
-			for(int j=0;j<line.length();++j){
-				if(last!=null){
-					System.out.println( distance(last,line.charAt(j)));
-					len+=distance(last,line.charAt(j));
-				}
-				last=line.charAt(j);
+		for(int j=0;j<line.length();++j){
+			if(last!=null){
+				//					System.out.println( distance(last,line.charAt(j)));
+//				len+=distance(last,line.charAt(j));
+				len+=distance(line.charAt(j),last);
 			}
+			last=line.charAt(j);
 		}
-		System.out.println();
+		//		System.out.println();
 		return len;
 	}
 
 	private static int distance(Character last, char current) {
 		int[] posA=keys.get(last);
 		int[] posB=keys.get(current);
+		return distB(posA, posB) ;
+	}
+	
+	private static int distA(int[] posA , int[] posB){
 		return Math.abs(posA[0]-posB[0])+Math.abs(posA[1]-posB[1]);
 	}
-
+	
+	private static int distB(int[] posA,int[] posB){
+		return (int) Math.sqrt(  ((posB[0]-posA[0])*(posB[0]-posA[0])) + ((posB[1]-posA[1])*(posB[1]-posA[1]))  );
+	}
 }
