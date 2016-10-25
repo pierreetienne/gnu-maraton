@@ -1,6 +1,5 @@
 import java.io.FileInputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -24,7 +23,6 @@ public class EdxWeek1F {
 						keys.put(ln.charAt(j), new int[]{i+1,j+1});
 					}
 				}
-				System.out.println(">>> " + Arrays.toString(keys.get(' ')));
 				in.nextLine();
 				String betterLanguage=null;
 				int len=Integer.MAX_VALUE;
@@ -34,7 +32,7 @@ public class EdxWeek1F {
 					while(in.hasNextLine()){
 						String line=in.nextLine();
 						sb.append(line);
-						if(line.trim().length()==0)
+						if(line.length()==0)
 							break;
 					}
 					int lenLang = len(new String(sb));
@@ -54,27 +52,24 @@ public class EdxWeek1F {
 		Character last=null;
 		for(int j=0;j<line.length();++j){
 			if(last!=null){
-				//					System.out.println( distance(last,line.charAt(j)));
-//				len+=distance(last,line.charAt(j));
 				len+=distance(line.charAt(j),last);
 			}
 			last=line.charAt(j);
 		}
-		//		System.out.println();
 		return len;
 	}
 
 	private static int distance(Character last, char current) {
 		int[] posA=keys.get(last);
 		int[] posB=keys.get(current);
-		return distB(posA, posB) ;
+		return distA(posA, posB) ;
 	}
 	
 	private static int distA(int[] posA , int[] posB){
-		return Math.abs(posA[0]-posB[0])+Math.abs(posA[1]-posB[1]);
+		return Math.max( Math.abs(posA[0]-posB[0]),Math.abs(posA[1]-posB[1]));
 	}
 	
 	private static int distB(int[] posA,int[] posB){
-		return (int) Math.sqrt(  ((posB[0]-posA[0])*(posB[0]-posA[0])) + ((posB[1]-posA[1])*(posB[1]-posA[1]))  );
+		return (int) (Math.sqrt(  ((posB[0]-posA[0])*(posB[0]-posA[0])) + ((posB[1]-posA[1])*(posB[1]-posA[1]))  ));
 	}
 }
